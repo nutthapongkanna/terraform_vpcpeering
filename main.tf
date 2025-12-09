@@ -116,13 +116,13 @@ resource "google_compute_instance" "vm_b" {
 # -------------------------
 resource "google_compute_network_peering" "a_to_b" {
   name         = "peer-a-to-b"
-  network      = google_compute_network.vpc_a.name
+  network      = google_compute_network.vpc_a.id
   peer_network = google_compute_network.vpc_b.id
 }
 
 resource "google_compute_network_peering" "b_to_a" {
   name         = "peer-b-to-a"
-  network      = google_compute_network.vpc_b.name
+  network      = google_compute_network.vpc_b.id
   peer_network = google_compute_network.vpc_a.id
 }
 
