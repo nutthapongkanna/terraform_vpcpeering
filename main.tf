@@ -8,8 +8,9 @@ provider "google" {
 # VPC A
 # -------------------------
 resource "google_compute_network" "vpc_a" {
-  name                    = "vpc-a"
-  auto_create_subnetworks = false
+  name                            = "vpc-a"
+  auto_create_subnetworks         = false
+  delete_default_routes_on_create = true
 }
 
 resource "google_compute_subnetwork" "subnet_a" {
@@ -23,8 +24,9 @@ resource "google_compute_subnetwork" "subnet_a" {
 # VPC B
 # -------------------------
 resource "google_compute_network" "vpc_b" {
-  name                    = "vpc-b"
-  auto_create_subnetworks = false
+  name                            = "vpc-b"
+  auto_create_subnetworks         = false
+  delete_default_routes_on_create = true
 }
 
 resource "google_compute_subnetwork" "subnet_b" {
