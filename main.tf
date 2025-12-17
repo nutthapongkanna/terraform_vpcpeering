@@ -1,9 +1,3 @@
-provider "google" {
-  project = var.project_id
-  region  = var.region
-  zone    = var.zone
-}
-
 # -------------------------
 # VPC A
 # -------------------------
@@ -42,7 +36,6 @@ resource "google_compute_subnetwork" "subnet_b" {
 resource "google_compute_firewall" "vpc_a_ssh" {
   name    = "fw-vpc-a-ssh"
   network = google_compute_network.vpc_a.name
-
   direction = "INGRESS"
 
   allow {
@@ -57,7 +50,6 @@ resource "google_compute_firewall" "vpc_a_ssh" {
 resource "google_compute_firewall" "vpc_b_ssh" {
   name    = "fw-vpc-b-ssh"
   network = google_compute_network.vpc_b.name
-
   direction = "INGRESS"
 
   allow {
@@ -88,7 +80,6 @@ resource "google_compute_instance" "vm_a" {
 
   network_interface {
     subnetwork = google_compute_subnetwork.subnet_a.id
-    # ให้มี external IP เพื่อ SSH ง่ายใน lab
     access_config {}
   }
 }
@@ -130,12 +121,10 @@ resource "google_compute_network_peering" "b_to_a" {
 
 # -------------------------
 # Firewall ข้าม VPC
-# อนุญาต ICMP + SSH จาก subnet ฝั่งตรงข้าม
 # -------------------------
 resource "google_compute_firewall" "vpc_a_allow_from_b" {
   name    = "fw-vpc-a-allow-from-b"
   network = google_compute_network.vpc_a.name
-
   direction = "INGRESS"
 
   allow { protocol = "icmp" }
@@ -152,7 +141,6 @@ resource "google_compute_firewall" "vpc_a_allow_from_b" {
 resource "google_compute_firewall" "vpc_b_allow_from_a" {
   name    = "fw-vpc-b-allow-from-a"
   network = google_compute_network.vpc_b.name
-
   direction = "INGRESS"
 
   allow { protocol = "icmp" }
